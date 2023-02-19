@@ -1,8 +1,7 @@
 console.log('Conectado!!')
 let carrito = {}
-
 const cards = document.getElementById('cards')
-const Items = document.getElementById('items')
+const items = document.getElementById('items')
 const footer = document.getElementById('footer')
 const templateCard = document.getElementById('template-card').content
 const templateFooter = document.getElementById('template-footer').content
@@ -13,9 +12,9 @@ document.addEventListener('DOMContentLoaded', e => {
     cargaDatosBD()
 })
 cards.addEventListener('click', e => {
+    
     addCarrito(e)
 })
-
 
 const addCarrito = e => {
 if(e.target.classList.contains('btn-dark')){
@@ -40,24 +39,26 @@ const setCarrito = item => {
 }
 
 const pintarCarrito = () => {
-    Items.innerHTML = ''
+    items.innerHTML = ''
     Object.values(carrito).forEach(producto => {
-        carrito.querySelector('th').textContent = producto.id
+        templateCarrito.querySelector('th').textContent = producto.id
+
         const clone = templateCarrito.cloneNode(true)
         fragment.appendChild(clone)
     })
-    Items.appendChild(fragment)
+    items.appendChild(fragment)
 }
 
 const cargaDatosBD = async () => {
-    const res = await fetch('./db/api.json')
+    const res = await fetch('../db/api.json')
     const data = await res.json()
     pintarCards(data)
+    //console.log('respuesta', data)
 }
 
 const pintarCards = (data) => {
     data.forEach(item => {
-        console.log(item, index)
+        console.log(item)
         templateCard.querySelector('h5').textContent = item.title
         templateCard.querySelector('p').textContent = item.precio
         templateCard.querySelector('button').dataset.id = item.id
